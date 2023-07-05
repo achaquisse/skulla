@@ -41,7 +41,7 @@ jobs:
           aws-region: "af-south-1"
 
       - name: Synth stack
-        run: cd backend-infra cdk synth
+        run: cd backend-infra && cdk synth
 
       - name: Deploy stack
-        run: cd backend-infra cdk deploy --all --require-approval never
+        run: cd backend-infra && cdk deploy --all --require-approval never
