@@ -24,8 +24,7 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	assetsLayerId := jsii.String("skulla-assets")
-	assetsLayerVersion := awslambda.NewLayerVersion(stack, assetsLayerId, &awslambda.LayerVersionProps{
+	assetsLayerVersion := awslambda.NewLayerVersion(stack, jsii.String("skulla-assets"), &awslambda.LayerVersionProps{
 		Code:        awslambda.Code_FromAsset(jsii.String("../backend-api/assets"), &awss3assets.AssetOptions{}),
 		Description: jsii.String("skulla assets lambda layer"),
 	})
@@ -37,7 +36,7 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 		Architecture: awslambda.Architecture_ARM_64(),
 		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
 			stack,
-			assetsLayerId,
+			jsii.String("skulla-assets-layer"),
 			assetsLayerVersion.LayerVersionArn(),
 		)},
 	})
