@@ -25,7 +25,8 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
 	awslambda.NewLayerVersion(stack, jsii.String("skulla-assets"), &awslambda.LayerVersionProps{
-		Code: awslambda.Code_FromAsset(jsii.String("../assets"), &awss3assets.AssetOptions{}),
+		Code:        awslambda.Code_FromAsset(jsii.String("../backend-api/assets"), &awss3assets.AssetOptions{}),
+		Description: jsii.String("skulla assents lambda layer"),
 	})
 
 	skullaFunc := awscdklambdago.NewGoFunction(stack, jsii.String("SkullaFunc"), &awscdklambdago.GoFunctionProps{
