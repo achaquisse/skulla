@@ -45,6 +45,3 @@ jobs:
 
       - name: Deploy stack
         run: cd backend-infra cdk deploy --all --require-approval never
-
-  deploy:
-    runs-on: ubuntu-latest
