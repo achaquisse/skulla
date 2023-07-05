@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
 	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awss3assets"
 
 	awscdkapigw "github.com/aws/aws-cdk-go/awscdkapigatewayv2alpha/v2"
 	awsapigwintegrations "github.com/aws/aws-cdk-go/awscdkapigatewayv2integrationsalpha/v2"
@@ -22,6 +23,10 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 		sprops = props.StackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
+
+	awslambda.NewLayerVersion(stack, jsii.String("skulla-assets"), &awslambda.LayerVersionProps{
+		Code: awslambda.Code_FromAsset(jsii.String("../assets"), &awss3assets.AssetOptions{}),
+	})
 
 	skullaFunc := awscdklambdago.NewGoFunction(stack, jsii.String("SkullaFunc"), &awscdklambdago.GoFunctionProps{
 		FunctionName: jsii.String("SkullaFunc"),
