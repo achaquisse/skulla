@@ -24,9 +24,10 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	awslambda.NewLayerVersion(stack, jsii.String("skulla-assets"), &awslambda.LayerVersionProps{
+	assetsLayerId := jsii.String("skulla-assets")
+	assetsLayerVersion := awslambda.NewLayerVersion(stack, assetsLayerId, &awslambda.LayerVersionProps{
 		Code:        awslambda.Code_FromAsset(jsii.String("../backend-api/assets"), &awss3assets.AssetOptions{}),
-		Description: jsii.String("skulla assents lambda layer"),
+		Description: jsii.String("skulla assets lambda layer"),
 	})
 
 	skullaFunc := awscdklambdago.NewGoFunction(stack, jsii.String("SkullaFunc"), &awscdklambdago.GoFunctionProps{
@@ -34,6 +35,11 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 		Description:  jsii.String("an api-gw handler for the skulla-api"),
 		Entry:        jsii.String("../backend-api/cmd/main.go"),
 		Architecture: awslambda.Architecture_ARM_64(),
+		Layers: &[]awslambda.ILayerVersion{awslambda.LayerVersion_FromLayerVersionArn(
+			stack,
+			assetsLayerId,
+			assetsLayerVersion.LayerVersionArn(),
+		)},
 	})
 
 	skullaApi := awscdkapigw.NewHttpApi(stack, jsii.String("SkullaApi"), nil)
