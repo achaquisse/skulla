@@ -24,8 +24,8 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 
 	skullaFunc := awscdklambdago.NewGoFunction(stack, jsii.String("SkullaFunc"), &awscdklambdago.GoFunctionProps{
 		FunctionName: jsii.String("SkullaFunc"),
-		Description:  jsii.String("an apigw handler for the skulla-api"),
-		Entry:        jsii.String("../lambda/cmd/main.go"),
+		Description:  jsii.String("an api-gw handler for the skulla-api"),
+		Entry:        jsii.String("../backend-api/cmd/main.go"),
 	})
 
 	skullaApi := awscdkapigw.NewHttpApi(stack, jsii.String("SkullaApi"), nil)
