@@ -3,6 +3,7 @@ package internal
 import (
 	"bytes"
 	"errors"
+	"github.com/achaquisse/skulla-api/helper"
 	"github.com/signintech/gopdf"
 )
 
@@ -11,17 +12,22 @@ func GenerateCertificate(template string, studentName string, certDescription st
 		return nil, errors.New("invalid certificate template: " + template)
 	}
 
+	var assetsBaseDir = "./assets"
+	if helper.IsLambda() {
+		assetsBaseDir = "/opt"
+	}
+
 	var pdf = gopdf.GoPdf{}
 	pdf.Start(gopdf.Config{
 		PageSize: *gopdf.PageSizeA4Landscape,
 	})
 
 	pdf.AddPage()
-	tpl := pdf.ImportPage("./assets/layouts/"+template+"_certificate_layout.pdf", 1, "/MediaBox")
+	tpl := pdf.ImportPage(assetsBaseDir+"/layouts/"+template+"_certificate_layout.pdf", 1, "/MediaBox")
 	pdf.UseImportedTemplate(tpl, 0, 0, 0, 0)
 
-	drawStudentName(&pdf, studentName)
-	drawCertDescription(&pdf, certDescription)
+	drawStudentName(&pdf, assetsBaseDir, studentName)
+	drawCertDescription(&pdf, assetsBaseDir, certDescription)
 
 	var b bytes.Buffer
 
@@ -32,8 +38,8 @@ func GenerateCertificate(template string, studentName string, certDescription st
 	return b.Bytes(), nil
 }
 
-func drawStudentName(pdf *gopdf.GoPdf, studentName string) {
-	err := pdf.AddTTFFont("GreatVibes", "./assets/fonts/GreatVibes-Regular.ttf")
+func drawStudentName(pdf *gopdf.GoPdf, assetsBaseDir string, studentName string) {
+	err := pdf.AddTTFFont("GreatVibes", assetsBaseDir+"/fonts/GreatVibes-Regular.ttf")
 	if err != nil {
 		panic("Couldn't open GreatVibes font.")
 	}
@@ -54,8 +60,8 @@ func drawStudentName(pdf *gopdf.GoPdf, studentName string) {
 	}
 }
 
-func drawCertDescription(pdf *gopdf.GoPdf, certDescription string) {
-	err := pdf.AddTTFFont("IBMPlexSansCondensed", "./assets/fonts/IBMPlexSansCondensed-Regular.ttf")
+func drawCertDescription(pdf *gopdf.GoPdf, assetsBaseDir string, certDescription string) {
+	err := pdf.AddTTFFont("IBMPlexSansCondensed", assetsBaseDir+"/fonts/IBMPlexSansCondensed-Regular.ttf")
 	if err != nil {
 		panic("Couldn't open IBMPlexSansCondensed font.")
 	}
