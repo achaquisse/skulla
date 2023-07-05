@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aws/aws-cdk-go/awscdk/v2"
+	"github.com/aws/aws-cdk-go/awscdk/v2/awslambda"
 
 	awscdkapigw "github.com/aws/aws-cdk-go/awscdkapigatewayv2alpha/v2"
 	awsapigwintegrations "github.com/aws/aws-cdk-go/awscdkapigatewayv2integrationsalpha/v2"
@@ -26,6 +27,7 @@ func NewInfraCdkStack(scope constructs.Construct, id string, props *InfraCdkStac
 		FunctionName: jsii.String("SkullaFunc"),
 		Description:  jsii.String("an api-gw handler for the skulla-api"),
 		Entry:        jsii.String("../backend-api/cmd/main.go"),
+		Architecture: awslambda.Architecture_ARM_64(),
 	})
 
 	skullaApi := awscdkapigw.NewHttpApi(stack, jsii.String("SkullaApi"), nil)
