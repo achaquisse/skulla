@@ -43,7 +43,7 @@ export default function Home() {
     }
 
     return (
-        <main className="col-md-6 offset-md-3 mt-md-5">
+        <main className="col-md-6 offset-md-3 mt-3 mt-md-5">
             <h2>Generate a certificate</h2>
             <p className="mb-4"><small>Fill the form bellow with data that will be used to generate the certificate of
                 participation.</small></p>
@@ -57,8 +57,8 @@ export default function Home() {
                         <option value="portuguese">Computing Fundamentals</option>
                     </select>
                 </div>
-                <div className="row mb-3">
-                    <div className="col">
+                <div className="row">
+                    <div className="col-md mb-3">
                         <label htmlFor="level" className="form-label">Level</label>
                         <select defaultValue="Level 1" className="form-select" id="level" {...register('level')}>
                             <option>Level 1</option>
@@ -67,17 +67,17 @@ export default function Home() {
                             <option>Level 4</option>
                         </select>
                     </div>
-                    <div className="col">
+                    <div className="col-md mb-3">
                         <label htmlFor="startDate" className="form-label">Class start date</label>
                         <input required type="date" className="form-control" id="startDate" {...register('startDate')}/>
                     </div>
-                    <div className="col">
+                    <div className="col-md mb-3">
                         <label htmlFor="endDate" className="form-label">Class end date</label>
                         <input required type="date" className="form-control" id="endDate" {...register('endDate')}/>
                     </div>
                 </div>
-                <div className="row mb-3">
-                    <div className="col-8">
+                <div className="row">
+                    <div className="col-md-8 mb-3">
                         <label htmlFor="studentName" className="form-label">Student name</label>
                         <input required type="text" className="form-control" id="studentName"
                                aria-describedby="studentNameHelp" {...register('studentName')}/>
@@ -85,12 +85,12 @@ export default function Home() {
                             certificate.
                         </div>
                     </div>
-                    <div className="col-4">
+                    <div className="col-md-4 mb-3">
                         <label htmlFor="marks" className="form-label">Marks</label>
                         <input required type="number" className="form-control" id="marks" {...register('marks')}/>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary mb-5">Submit</button>
             </form>
 
         </main>

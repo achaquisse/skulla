@@ -35,6 +35,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: "us-east-1"
 
+      - name: Install cdk dependencies
+        run: cd frontend-infra && npm install
+
       - name: Synth stack
         run: cd frontend-infra && cdk synth
 
