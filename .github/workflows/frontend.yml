@@ -38,6 +38,9 @@ jobs:
       - name: Install cdk dependencies
         run: cd frontend-infra && npm install
 
+      - name: Install NextJs dependencies
+        run: cd frontend-ui && npm install
+
       - name: Synth stack
         run: cd frontend-infra && cdk synth
 
